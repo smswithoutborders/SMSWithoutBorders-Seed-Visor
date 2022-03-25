@@ -6,14 +6,14 @@ import logo from "images/logo.png";
 
 const LoadingContainer = styled.div.attrs(({ className }) => ({
   className: clsx(
-    "grid place-items-center text-gray-600 mx-auto w-full",
+    "grid place-items-center text-gray-100 mx-auto w-full",
     className
   ),
 }))``;
 
 const Spinner = styled.div.attrs(({ className }) => ({
   className: clsx(
-    "animate-spin rounded-full h-16 w-16 border-b-2 border-gray-600 mb-4",
+    "animate-spin rounded-full h-16 w-16 border-b-2 border-gray-100 mb-4",
     className
   ),
 }))``;
