@@ -1,6 +1,5 @@
-import React, { useMemo, Fragment } from "react";
-import { useTable, useFilters, useGlobalFilter } from "react-table";
-import { InlineLoader, GlobalFilter } from "components";
+import React, { useMemo } from "react";
+import { InlineLoader, Table } from "components";
 import { FiAlertCircle } from "react-icons/fi";
 import { useQuery } from "react-query";
 import { getSeeders } from "services";
@@ -8,12 +7,11 @@ import { getSeeders } from "services";
 export const Dashboard = () => {
   const {
     data = [],
+    isError,
     isLoading,
     isFetching,
     refetch,
-  } = useQuery("seeders", getSeeders, {
-    refetchInterval: 10000,
-  });
+  } = useQuery("seeders", getSeeders);
   const memoizedData = useMemo(() => data, [data]);
   const columns = useMemo(
     () => [
@@ -41,20 +39,26 @@ export const Dashboard = () => {
     []
   );
 
-  const {
-    rows,
-    state,
-    prepareRow,
-    headerGroups,
-    getTableProps,
-    setGlobalFilter,
-    getTableBodyProps,
-    preGlobalFilteredRows,
-  } = useTable(
-    { columns, data: memoizedData },
-    useFilters, // useFilters!
-    useGlobalFilter
-  );
+  if (isError) {
+    return (
+      <div className="min-h-screen px-6 py-20 prose bg-slate-800 max-w-none prose-invert md:p-20">
+        <h1 className="flex items-center">
+          <FiAlertCircle size={36} />
+          <span className="ml-2 text-3xl">An error occured</span>
+        </h1>
+        <p className="my-8 text-xl font-light">
+          Sorry we could not fetch Seeders. If error persists, please contact
+          support
+        </p>
+        <button
+          className="px-8 py-2 border border-gray-400 hover:text-gray-800 rounded-3xl hover:bg-white hover:border-none"
+          onClick={() => refetch()}
+        >
+          try again
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen p-6 prose bg-slate-800 max-w-none prose-invert md:p-12">
@@ -71,55 +75,7 @@ export const Dashboard = () => {
       {isLoading || isFetching ? (
         <InlineLoader className="my-8" />
       ) : (
-        <Fragment>
-          <div className="mt-8">
-            <GlobalFilter
-              preGlobalFilteredRows={preGlobalFilteredRows}
-              globalFilter={state.globalFilter}
-              setGlobalFilter={setGlobalFilter}
-            />
-          </div>
-          <div className="overflow-auto">
-            <table className="table-auto" {...getTableProps()}>
-              <thead>
-                {headerGroups.map((group) => (
-                  <tr className="p-2" {...group.getHeaderGroupProps()}>
-                    {group.headers.map((column) => (
-                      <th {...column.getHeaderProps()}>
-                        {column.render("Header")}
-                      </th>
-                    ))}
-                  </tr>
-                ))}
-              </thead>
-              <tbody {...getTableBodyProps()}>
-                {rows.length ? (
-                  rows.map((row) => {
-                    prepareRow(row);
-                    return (
-                      <tr className="p-2" {...row.getRowProps()}>
-                        {row.cells.map((cell) => (
-                          <td {...cell.getCellProps()}>
-                            {cell.value ? cell.render("Cell") : "N/A"}
-                          </td>
-                        ))}
-                      </tr>
-                    );
-                  })
-                ) : (
-                  <tr>
-                    <td colSpan={5} className="py-8 text-lg text-center">
-                      <div className="inline-flex items-center">
-                        <FiAlertCircle size={24} />
-                        <span className="ml-2">Sorry, no data available</span>
-                      </div>
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </Fragment>
+        <Table columns={columns} data={memoizedData} />
       )}
     </div>
   );

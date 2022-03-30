@@ -1,11 +1,15 @@
-import React from "react";
+import React, { StrictMode, Suspense, lazy } from "react";
 import ReactDOM from "react-dom";
+import { SplashScreen } from "components";
 import "./styles/index.css";
-import App from "./App";
+
+const App = lazy(() => import("App"));
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <StrictMode>
+    <Suspense fallback={<SplashScreen />}>
+      <App />
+    </Suspense>
+  </StrictMode>,
   document.getElementById("root")
 );
