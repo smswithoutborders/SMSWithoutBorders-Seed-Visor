@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import logo from "images/logo.png";
+import clsx from "clsx";
 import { FiExternalLink, FiGrid, FiMenu, FiX } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { Transition } from "@headlessui/react";
@@ -7,9 +8,27 @@ import { NavLink } from "./NavLinks";
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const [toggle, setToggle] = useState(false);
+
   function toggleMenu() {
     setOpen(!open);
   }
+
+  const handleScroll = useCallback(() => {
+    if (window.scrollY >= 80) {
+      setToggle(true);
+    } else {
+      setToggle(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [handleScroll]);
 
   const SharedLinks = () => (
     <div className="xl:flex">
@@ -42,7 +61,14 @@ export const Navbar = () => {
   );
 
   return (
-    <div className="sticky top-0 z-50 h-16 text-gray-100 bg-transparent shadow-3xl">
+    <div
+      className={clsx(
+        "sticky top-0 z-50 h-16  shadow-3xl text-gray-100 ",
+        toggle
+          ? "bg-gradient-to-tl md:bg-gradient-to-r from-black via-slate-800 to-slate-800"
+          : "bg-transparent"
+      )}
+    >
       <nav className="items-center justify-between hidden xl:flex">
         <Logo />
         <SharedLinks />
@@ -65,7 +91,7 @@ export const Navbar = () => {
             leave="transition-opacity duration-500"
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
-            className="flex flex-col w-full h-screen bg-gradient-to-br from-black via-slate-800 to-black"
+            className="flex flex-col w-full h-screen bg-gradient-to-b from-black via-slate-800"
           >
             <SharedLinks />
           </Transition>
