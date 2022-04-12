@@ -41,7 +41,7 @@ export const Dashboard = () => {
 
   if (isError) {
     return (
-      <div className="min-h-screen px-6 py-20 prose bg-slate-800 max-w-none prose-invert md:p-20">
+      <div className="min-h-screen px-6 py-20 prose bg-transparent max-w-none prose-invert md:p-20">
         <h1 className="flex items-center">
           <FiAlertCircle size={36} />
           <span className="ml-2 text-3xl">An error occured</span>
@@ -61,7 +61,7 @@ export const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen p-6 prose bg-slate-800 max-w-none prose-invert md:p-12">
+    <div className="min-h-screen p-6 prose bg-transparent max-w-none prose-invert md:p-12">
       <div className="flex items-center justify-between">
         <h1 className="my-0 text-3xl"> Seeders</h1>
         <button

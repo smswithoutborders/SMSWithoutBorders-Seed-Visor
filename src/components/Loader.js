@@ -6,7 +6,7 @@ import logo from "images/logo.png";
 
 const LoadingContainer = styled.div.attrs(({ className }) => ({
   className: clsx(
-    "grid place-items-center text-gray-100 mx-auto w-full bg-slate-800",
+    "grid place-items-center text-gray-100 mx-auto w-full",
     className
   ),
 }))``;

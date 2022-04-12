@@ -17,3 +17,20 @@ export const NavLink = forwardRef(({ className, ...props }, ref) => {
     />
   );
 });
+
+export const ExternalLink = forwardRef(
+  ({ className, children, ...props }, ref) => {
+    return (
+      <a
+        ref={ref}
+        {...props}
+        className={clsx(
+          "flex outline-none font-medium p-4 items-center appearance-none active:font-bold",
+          className
+        )}
+      >
+        {children}
+      </a>
+    );
+  }
+);

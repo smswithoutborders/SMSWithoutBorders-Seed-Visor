@@ -3,7 +3,7 @@ import logo from "images/logo.png";
 import { FiExternalLink, FiGrid, FiMenu, FiX } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { Transition } from "@headlessui/react";
-import { NavLink } from "./NavLink";
+import { NavLink } from "./NavLinks";
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -33,21 +33,21 @@ export const Navbar = () => {
 
   const Logo = () => (
     <Link to="/" className="flex items-center xl:ml-4">
-      <img src={logo} alt="logo" className="w-8 h-8 mr-3" />
+      <img src={logo} alt="logo" className="mr-3 w-7 h-7" />
       <p className="text-gray-100">
         <span className="font-bold">SMSWithoutBorders</span> |
-        <span className="font-normal"> Seeders</span>
+        <span className="font-normal"> Visor</span>
       </p>
     </Link>
   );
 
   return (
-    <div className="sticky top-0 z-50 h-16 text-gray-100 shadow-xl bg-slate-800">
+    <div className="sticky top-0 z-50 h-16 text-gray-100 bg-transparent shadow-3xl">
       <nav className="items-center justify-between hidden xl:flex">
         <Logo />
         <SharedLinks />
       </nav>
-      <div className="xl:hidden bg-slate-800">
+      <div className="xl:hidden">
         <div className="flex items-center justify-between p-4">
           <Logo />
           <button className="appearance-none" onClick={() => toggleMenu()}>
@@ -65,7 +65,7 @@ export const Navbar = () => {
             leave="transition-opacity duration-500"
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
-            className="flex flex-col w-full h-screen"
+            className="flex flex-col w-full h-screen bg-gradient-to-br from-black via-slate-800 to-black"
           >
             <SharedLinks />
           </Transition>
