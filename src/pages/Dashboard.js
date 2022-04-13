@@ -11,7 +11,9 @@ export const Dashboard = () => {
     isLoading,
     isFetching,
     refetch,
-  } = useQuery("seeders", getSeeders);
+  } = useQuery("seeders", getSeeders, {
+    refetchInterval: Number(process.env.REACT_APP_POLLING_INTERVAL),
+  });
   const memoizedData = useMemo(() => data, [data]);
   const columns = useMemo(
     () => [

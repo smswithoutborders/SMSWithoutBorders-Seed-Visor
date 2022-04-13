@@ -27,6 +27,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 * PORT -> development port
 * REACT_APP_API_URL ->  Backend API URL
+* REACT_APP_POLLING_INTERVAL -> Time interval for fetching and updating gateway information
+
 
 ## Start development server
 
