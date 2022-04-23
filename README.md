@@ -28,7 +28,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 * PORT -> development port
 * REACT_APP_API_URL ->  Backend API URL
 * REACT_APP_POLLING_INTERVAL -> Time interval for fetching and updating gateway information
-
+* HTTPS -> Enable or disable https
+* SSL_CRT_FILE -> Location of SSL CRT file
+* SSL_KEY_FILE -> Location of SSL Key file
 
 ## Start development server
 
