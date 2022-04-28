@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, Fragment } from "react";
 import { InlineLoader, Table } from "components";
 import { FiAlertCircle } from "react-icons/fi";
 import { useQuery } from "react-query";
@@ -9,7 +9,8 @@ export const Dashboard = () => {
     data = [],
     isError,
     isLoading,
-    isFetching,
+    dataUpdatedAt,
+    remove,
     refetch,
   } = useQuery("seeders", getSeeders, {
     refetchInterval: Number(process.env.REACT_APP_POLLING_INTERVAL),
@@ -41,6 +42,11 @@ export const Dashboard = () => {
     []
   );
 
+  function handleUpdate() {
+    remove();
+    refetch();
+  }
+
   if (isError) {
     return (
       <div className="min-h-screen px-6 py-20 prose bg-transparent max-w-none prose-invert md:p-20">
@@ -68,16 +74,21 @@ export const Dashboard = () => {
         <h1 className="my-0 text-3xl"> Seeders</h1>
         <button
           className="px-6 py-1 border border-gray-400 hover:text-gray-800 rounded-3xl hover:bg-white hover:border-none"
-          onClick={() => refetch()}
+          onClick={() => handleUpdate()}
         >
           refresh
         </button>
       </div>
 
-      {isLoading || isFetching ? (
+      {isLoading ? (
         <InlineLoader className="my-8" />
       ) : (
-        <Table columns={columns} data={memoizedData} />
+        <Fragment>
+          <Table columns={columns} data={memoizedData} />
+          <p className="text-sm text-center md:text-right">
+            last updated: {new Date(dataUpdatedAt).toLocaleString()}
+          </p>
+        </Fragment>
       )}
     </div>
   );
