@@ -15,7 +15,15 @@ export const Dashboard = () => {
   } = useQuery("seeders", getSeeders, {
     refetchInterval: Number(process.env.REACT_APP_POLLING_INTERVAL),
   });
-  const memoizedData = useMemo(() => data, [data]);
+  const memoizedData = useMemo(() => {
+    return data.map((item) => {
+      return {
+        ...item,
+        LPS: new Date(item.LPS * 1000).toLocaleTimeString(),
+      };
+    });
+  }, [data]);
+
   const columns = useMemo(
     () => [
       {
@@ -23,12 +31,20 @@ export const Dashboard = () => {
         accessor: "country", // accessor is the "key" in the data
       },
       {
-        Header: "IMSI",
-        accessor: "IMSI",
+        Header: "Operator ID",
+        accessor: "operator_id",
+      },
+      {
+        Header: "Operator name",
+        accessor: "operator_name",
       },
       {
         Header: "MSISDN",
         accessor: "MSISDN",
+      },
+      {
+        Header: "IMSI",
+        accessor: "IMSI",
       },
       {
         Header: "LPS",
